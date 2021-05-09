@@ -2,32 +2,27 @@ const express = require('express');
 const WorkOS = require('@workos-inc/node');
 const app = express();
 const cors = require('cors');
-const path = require('path');
-const { json, urlencoded } = require('body-parser');
+const { join } = require('path');
 
+const workos = new WorkOS.default(process.env.WORKOS_API_KEY);
+const clientID = process.env.WORKOS_CLIENT_ID;
+const domain = process.env.DOMAIN;
+const redirectURI = process.env.REDIRECTURI;
 const port = process.env.PORT || 3000;
-const workos = new WorkOS.default('sk_Vikw2akqGIEkoCyeOKK0yiKuc');
-const clientID = 'client_01F52442XJR25BACZGTZC5VT1K';
 
 app.use(cors());
-app.use(json());
-app.use(urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/index.html'));
+app.get('/', (_, res) => {
+  res.status(200).sendFile(join(__dirname, 'views/index.html'));
 });
 
-app.get('/auth', (_req, res) => {
-  const domain = 'foo-corp.com';
-  const redirectURI = 'https://serene-castle-94417.herokuapp.com/callback';
-
-  const authorizationURL = workos.sso.getAuthorizationURL({
+app.get('/auth', async (_, res) => {
+  const authorizationURL = await workos.sso.getAuthorizationURL({
     domain,
     redirectURI,
     clientID,
   });
 
-  console.log('authorizationURL', authorizationURL);
   res.redirect(authorizationURL);
 });
 
@@ -60,19 +55,15 @@ app.get('/callback', async (req, res) => {
 				</span>`);
 });
 
-app.get('/fomo', (req, res) => {
-  res.send('Hello World!');
-});
-
 app.listen(port, () => {
-  console.log(`> Up and listening at https://serene-castle-94417.herokuapp.com/`);
+  console.log(`> Up and listening`);
 });
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', (err) => {
   console.error(err.stack);
   process.exit(1);
 });
 
-process.on('unhandledRejection', function (reason) {
+process.on('unhandledRejection', (reason) => {
   console.error('Unhandled rejection', reason);
 });
