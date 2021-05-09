@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 
 app.get('/auth', (_req, res) => {
   const domain = 'foo-corp.com';
-  const redirectURI = 'https://tricianotpat.ngrok.io/callback';
+  const redirectURI = 'https://serene-castle-94417.herokuapp.com/callback';
 
   const authorizationURL = workos.sso.getAuthorizationURL({
     domain,
@@ -65,7 +65,7 @@ app.get('/fomo', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`> Up and listening at http://localhost:${port}`);
+  console.log(`> Up and listening at https://serene-castle-94417.herokuapp.com/`);
 });
 
 process.on('uncaughtException', function (err) {
