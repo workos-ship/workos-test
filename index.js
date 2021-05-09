@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const { json, urlencoded } = require('body-parser');
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const workos = new WorkOS.default('sk_Vikw2akqGIEkoCyeOKK0yiKuc');
 const clientID = 'client_01F52442XJR25BACZGTZC5VT1K';
 
