@@ -1,4 +1,3 @@
-// import express from "express"
 const express = require('express');
 const WorkOS = require('@workos-inc/node');
 const app = express();
@@ -14,7 +13,7 @@ app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views/index.html'));
 });
 
@@ -68,10 +67,6 @@ app.get('/fomo', (req, res) => {
 app.listen(port, () => {
   console.log(`> Up and listening at http://localhost:${port}`);
 });
-// app.get('/home', (req, res) => {
-//   const context = req.body;
-//   console.log('context', context);
-// });
 
 process.on('uncaughtException', function (err) {
   console.error(err.stack);
